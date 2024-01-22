@@ -1,8 +1,8 @@
 <h1>
-<a href="https://www.dtapp.net/">Golang kuaidi100</a>
+<a href="https://www.dtapp.net/">Golang</a>
 </h1>
 
-📦 Golang kuaidi100
+📦 Golang 快递100
 
 [comment]: <> (go)
 [![godoc](https://pkg.go.dev/badge/go.dtapp.net/kuaidi100?status.svg)](https://pkg.go.dev/go.dtapp.net/kuaidi100)
@@ -13,5 +13,5 @@
 #### 安装
 
 ```shell
-go get -v -u go.dtapp.net/kuaidi100@v1.0.0
+go get -v -u go.dtapp.net/kuaidi100@v1.0.1
 ```
