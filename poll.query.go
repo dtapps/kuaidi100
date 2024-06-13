@@ -2,7 +2,6 @@ package kuaidi100
 
 import (
 	"context"
-	"go.dtapp.net/gojson"
 	"go.dtapp.net/gorequest"
 	"net/http"
 )
@@ -54,15 +53,18 @@ func newPollQueryResult(result PollQueryResponse, body []byte, http gorequest.Re
 // PollQuery 实时快递查询接口
 // https://api.kuaidi100.com/document/5f0ffb5ebc8da837cbd8aefc
 func (c *Client) PollQuery(ctx context.Context, notMustParams ...gorequest.Params) (*PollQueryResult, error) {
+
+	// OpenTelemetry链路追踪
+	ctx = c.TraceStartSpan(ctx, "poll/query.do")
+	defer c.TraceEndSpan()
+
 	// 参数
 	params := gorequest.NewParamsWith(notMustParams...)
-	// 请求
-	request, err := c.request(ctx, apiUrl+"/poll/query.do", params, http.MethodPost)
-	if err != nil {
-		return newPollQueryResult(PollQueryResponse{}, request.ResponseBody, request), err
-	}
-	// 定义
+
+	// 响应
 	var response PollQueryResponse
-	err = gojson.Unmarshal(request.ResponseBody, &response)
+
+	// 请求
+	request, err := c.request(ctx, "poll/query.do", params, http.MethodPost, &response)
 	return newPollQueryResult(response, request.ResponseBody, request), err
 }
