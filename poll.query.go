@@ -61,10 +61,8 @@ func (c *Client) PollQuery(ctx context.Context, notMustParams ...gorequest.Param
 	// 参数
 	params := gorequest.NewParamsWith(notMustParams...)
 
-	// 响应
-	var response PollQueryResponse
-
 	// 请求
+	var response PollQueryResponse
 	request, err := c.request(ctx, "poll/query.do", params, http.MethodPost, &response)
 	return newPollQueryResult(response, request.ResponseBody, request), err
 }

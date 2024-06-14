@@ -10,6 +10,10 @@ import (
 
 func (c *Client) request(ctx context.Context, url string, param gorequest.Params, method string, response any) (gorequest.Response, error) {
 
+	// 请求地址
+	uri := apiUrl + url
+
+	// 参数
 	newParams := gorequest.NewParams()
 
 	// 公共参数
@@ -20,9 +24,6 @@ func (c *Client) request(ctx context.Context, url string, param gorequest.Params
 
 	// 签名
 	newParams.Set("sign", c.getSign(gojson.JsonEncodeNoError(param)))
-
-	// 请求地址
-	uri := apiUrl + url
 
 	// 设置请求地址
 	c.httpClient.SetUri(uri)
@@ -39,7 +40,7 @@ func (c *Client) request(ctx context.Context, url string, param gorequest.Params
 	// OpenTelemetry链路追踪
 	c.TraceSetAttributes(attribute.String("http.url", uri))
 	c.TraceSetAttributes(attribute.String("http.method", method))
-	c.TraceSetAttributes(attribute.String("http.params", gojson.JsonEncodeNoError(param)))
+	c.TraceSetAttributes(attribute.String("http.params", gojson.JsonEncodeNoError(newParams)))
 
 	// 发起请求
 	request, err := c.httpClient.Request(ctx)

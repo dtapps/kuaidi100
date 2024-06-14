@@ -33,10 +33,8 @@ func (c *Client) Poll(ctx context.Context, notMustParams ...gorequest.Params) (*
 	// 参数
 	params := gorequest.NewParamsWith(notMustParams...)
 
-	// 响应
-	var response PollResponse
-
 	// 请求
+	var response PollResponse
 	request, err := c.request(ctx, "poll", params, http.MethodPost, &response)
 	return newPollResult(response, request.ResponseBody, request), err
 }
